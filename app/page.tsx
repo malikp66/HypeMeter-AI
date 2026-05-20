@@ -74,6 +74,25 @@ export default function HypeMeter() {
     localStorage.setItem("hypemeter_usage", JSON.stringify({ count: newCount, date: new Date().toISOString() }));
   };
 
+  const [showAllDrops, setShowAllDrops] = useState(false);
+
+  const mockDrops = [
+    { id: 1, label: "CHAOS", image: "https://images.unsplash.com/photo-1523398002811-999aa8d9512e?auto=format&fit=crop&w=400&q=80", hype: 94, tags: "Archive Streetwear", title: "Chaos Theory Washed Tee", brand: "@skenafit.id", avatar: "https://i.pravatar.cc/100?img=11" },
+    { id: 2, label: "NEO-TX", image: "https://images.unsplash.com/photo-1550614000-4b95dd247547?auto=format&fit=crop&w=400&q=80", hype: 91, tags: "Cybercore Utility", title: "Neon Stitch Cargo Zip", brand: "@archivebdg", avatar: "https://i.pravatar.cc/100?img=12" },
+    { id: 3, label: "GLITCH", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80", hype: 88, tags: "Y2K Cyber", title: "Glitch Star Zip-Up", brand: "@y2k_indo", avatar: "https://i.pravatar.cc/100?img=13" },
+    { id: 4, label: "RACING", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80", hype: 85, tags: "Racing-core", title: "Vintage Grand Prix Jacket", brand: "@racingsupply.jkt", avatar: "https://i.pravatar.cc/100?img=14" },
+    { id: 5, label: "BOXY", image: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?auto=format&fit=crop&w=400&q=80", hype: 95, tags: "Minimalist", title: "Washed Black Boxy Tee", brand: "@basicdistro", avatar: "https://i.pravatar.cc/100?img=15" },
+    { id: 6, label: "DENIM", image: "https://images.unsplash.com/photo-1475178626620-a4d074967452?auto=format&fit=crop&w=400&q=80", hype: 89, tags: "Workwear", title: "Heavyweight Denim Shirt", brand: "@jkt_denim", avatar: "https://i.pravatar.cc/100?img=16" },
+    { id: 7, label: "GORP", image: "https://images.unsplash.com/photo-1489987707023-af0825ae1fa3?auto=format&fit=crop&w=400&q=80", hype: 92, tags: "Gorpcore", title: "Alpha Multi-pocket Vest", brand: "@outdoorskena", avatar: "https://i.pravatar.cc/100?img=17" },
+    { id: 8, label: "JERSEY", image: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=400&q=80", hype: 96, tags: "Bloke-core", title: "Retro Football Jersey", brand: "@football_casuals", avatar: "https://i.pravatar.cc/100?img=18" },
+    { id: 9, label: "TECH", image: "https://images.unsplash.com/photo-1505022610485-0249ba5b3675?auto=format&fit=crop&w=400&q=80", hype: 84, tags: "Techwear", title: "Midnight Shell Jacket", brand: "@techwear.id", avatar: "https://i.pravatar.cc/100?img=19" },
+    { id: 10, label: "OPIUM", image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?auto=format&fit=crop&w=400&q=80", hype: 97, tags: "Opium Style", title: "Vampire Leather Zip", brand: "@opiumfits", avatar: "https://i.pravatar.cc/100?img=20" },
+    { id: 11, label: "SKATE", image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=400&q=80", hype: 82, tags: "Skate-core", title: "Baggy Washed Denim", brand: "@skateindo", avatar: "https://i.pravatar.cc/100?img=21" },
+    { id: 12, label: "VINTAGE", image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=400&q=80", hype: 90, tags: "Vintage 90s", title: "Faded Graphic Knit", brand: "@vintagehub_jkt", avatar: "https://i.pravatar.cc/100?img=22" },
+  ];
+
+  const displayedDrops = showAllDrops ? mockDrops : mockDrops.slice(0, 4);
+
   const fallbackData: AnalysisResult = {
     viralPotentialScore: 92,
     genZAppeal: "Sangat Tinggi",
@@ -820,77 +839,41 @@ export default function HypeMeter() {
                <Sparkles className="w-5 h-5 text-white/50" />
                <h2 className="font-display font-black text-2xl uppercase tracking-tighter text-white">Top Hype Drops Today</h2>
              </div>
-             <button className="text-[10px] font-mono uppercase tracking-widest text-[#39FF14] hover:underline">View All</button>
+             <button 
+               onClick={() => setShowAllDrops(!showAllDrops)}
+               className="text-[10px] font-mono uppercase tracking-widest text-[#39FF14] hover:underline"
+             >
+               {showAllDrops ? "View Less" : "View All"}
+             </button>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-             {/* Mock Item 1 */}
-             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors">
-               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
-                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">CHAOS</span>
-                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion1/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
-                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">94% HYPE</div>
-               </div>
-               <div className="p-4 border-t border-white/5">
-                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Archive Streetwear</div>
-                 <h4 className="font-bold text-sm text-white mb-2 truncate">Chaos Theory Washed Tee</h4>
-                 <div className="flex items-center gap-2">
-                   <div className="w-4 h-4 rounded-full bg-white/10" />
-                   <span className="text-[10px] text-white/60">@skenafit.id</span>
-                 </div>
-               </div>
-             </div>
-
-             {/* Mock Item 2 */}
-             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors">
-               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
-                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">NEO-TX</span>
-                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion2/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
-                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">91% HYPE</div>
-               </div>
-               <div className="p-4 border-t border-white/5">
-                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Cybercore Utility</div>
-                 <h4 className="font-bold text-sm text-white mb-2 truncate">Neon Stitch Cargo Zip</h4>
-                 <div className="flex items-center gap-2">
-                   <div className="w-4 h-4 rounded-full bg-white/10" />
-                   <span className="text-[10px] text-white/60">@archivebdg</span>
-                 </div>
-               </div>
-             </div>
-
-             {/* Mock Item 3 */}
-             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors">
-               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
-                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">GLITCH</span>
-                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion3/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
-                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">88% HYPE</div>
-               </div>
-               <div className="p-4 border-t border-white/5">
-                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Y2K Cyber</div>
-                 <h4 className="font-bold text-sm text-white mb-2 truncate">Glitch Star Zip-Up</h4>
-                 <div className="flex items-center gap-2">
-                   <div className="w-4 h-4 rounded-full bg-white/10" />
-                   <span className="text-[10px] text-white/60">@y2k_indo</span>
-                 </div>
-               </div>
-             </div>
-
-             {/* Mock Item 4 */}
-             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors hidden lg:block">
-               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
-                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">RACING</span>
-                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion4/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
-                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">85% HYPE</div>
-               </div>
-               <div className="p-4 border-t border-white/5">
-                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Racing-core</div>
-                 <h4 className="font-bold text-sm text-white mb-2 truncate">Vintage Grand Prix Jacket</h4>
-                 <div className="flex items-center gap-2">
-                   <div className="w-4 h-4 rounded-full bg-white/10" />
-                   <span className="text-[10px] text-white/60">@racingsupply.jkt</span>
-                 </div>
-               </div>
-             </div>
+             <AnimatePresence>
+               {displayedDrops.map((drop) => (
+                 <motion.div 
+                   key={drop.id}
+                   initial={{ opacity: 0, scale: 0.95 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   exit={{ opacity: 0, scale: 0.95 }}
+                   transition={{ duration: 0.4 }}
+                   className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors"
+                 >
+                   <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
+                      <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50 relative z-10">{drop.label}</span>
+                      <img src={drop.image} alt={drop.title} className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
+                      <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold z-10">{drop.hype}% HYPE</div>
+                   </div>
+                   <div className="p-4 border-t border-white/5 relative z-10">
+                     <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">{drop.tags}</div>
+                     <h4 className="font-bold text-sm text-white mb-2 truncate">{drop.title}</h4>
+                     <div className="flex items-center gap-2">
+                       <img src={drop.avatar} alt={drop.brand} className="w-5 h-5 rounded-full border border-white/10" />
+                       <span className="text-[10px] text-white/60 font-mono">{drop.brand}</span>
+                     </div>
+                   </div>
+                 </motion.div>
+               ))}
+             </AnimatePresence>
           </div>
         </section>
 
