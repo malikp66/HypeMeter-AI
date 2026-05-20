@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Upload, Sparkles, TrendingUp, ScanFace, Activity, AlertTriangle, Layers, Tag, Camera, Loader2, Info, X } from "lucide-react";
+import { Upload, Sparkles, TrendingUp, TrendingDown, ScanFace, Activity, AlertTriangle, Layers, Tag, Camera, Loader2, Info, X, Zap, Newspaper, BarChart3, Globe, Flame, Crosshair, MapPin } from "lucide-react";
 import Image from "next/image";
 
 type AnalysisResult = {
@@ -12,6 +12,10 @@ type AnalysisResult = {
   streetwearRelevance: string;
   designUniqueness: string;
   styleTags: string[];
+  fashionDNA: {
+    style: string;
+    percentage: number;
+  }[];
   aestheticAnalysis: string;
   audiencePersona: {
     ageDemographic: string;
@@ -41,6 +45,11 @@ export default function HypeMeter() {
   const [error, setError] = useState<string | null>(null);
   const frontInputRef = useRef<HTMLInputElement>(null);
   const backInputRef = useRef<HTMLInputElement>(null);
+  const analyzerRef = useRef<HTMLElement>(null);
+
+  const scrollToAnalyzer = () => {
+    analyzerRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const MAX_USAGE = 3;
   const [usageCount, setUsageCount] = useState<number>(0);
@@ -72,6 +81,11 @@ export default function HypeMeter() {
     streetwearRelevance: "Kuat",
     designUniqueness: "Tinggi",
     styleTags: ["Cybercore", "Streetwear Lokal", "Y2K Skena"],
+    fashionDNA: [
+      { style: "Tokyo Streetwear", percentage: 40 },
+      { style: "Cyber Y2K", percentage: 35 },
+      { style: "Gorpcore / Techwear", percentage: 25 },
+    ],
     aestheticAnalysis: "Bahasa visual sangat cocok dengan tren Gen Z TikTok Indonesia Q2 2026. Tipografi high-contrast memicu daya tarik visual secara instan.",
     audiencePersona: {
       ageDemographic: "17-24 (Gen Z)",
@@ -102,6 +116,7 @@ export default function HypeMeter() {
     const reader = new FileReader();
     reader.onload = (event) => {
       setFrontImage(event.target?.result as string);
+      scrollToAnalyzer();
     };
     reader.readAsDataURL(file);
   };
@@ -195,7 +210,7 @@ export default function HypeMeter() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="absolute top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-md p-4 rounded-xl border border-red-500/30 bg-black/90 backdrop-blur-xl shadow-2xl flex items-start gap-4"
+              className="fixed top-24 left-1/2 -translate-x-1/2 z-50 w-full max-w-md p-4 rounded-xl border border-red-500/30 bg-black/95 backdrop-blur-xl shadow-2xl flex items-start gap-4"
             >
               <div className="p-2 border border-red-500/20 bg-red-500/10 rounded-full shrink-0">
                 <AlertTriangle className="w-5 h-5 text-red-500" />
@@ -237,6 +252,223 @@ export default function HypeMeter() {
           )}
         </AnimatePresence>
 
+        {/* NEW HERO CINEMATIC */}
+        {(!result && !isScanning) && (
+          <section className="relative min-h-[90vh] flex flex-col justify-center items-center text-center -mt-32 pt-32 pb-20 overflow-hidden">
+             {/* Background Effects */}
+             <div className="absolute inset-0 z-0">
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#39FF14]/5 blur-[120px] rounded-full pointer-events-none" />
+               <div className="absolute top-0 w-full h-[500px] bg-gradient-to-b from-[#0B0B0C] via-transparent to-transparent z-10" />
+               <div className="absolute bottom-0 w-full h-[500px] bg-gradient-to-t from-[#0B0B0C] via-[#0B0B0C]/80 to-transparent z-10" />
+               <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/indo-streetwear/1920/1080')] opacity-20 mix-blend-screen object-cover" />
+             </div>
+             
+             <div className="relative z-20 flex flex-col items-center px-4 max-w-5xl mx-auto mt-20">
+               <motion.div 
+                 initial={{ opacity: 0, y: 30 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.8, ease: "easeOut" }}
+                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium mb-8 backdrop-blur-md"
+               >
+                 <Sparkles className="w-4 h-4 text-[#39FF14]" />
+                 <span className="text-white/80 font-mono text-[10px] uppercase tracking-widest">Indonesia Fashion Intelligence</span>
+               </motion.div>
+
+               <motion.h1 
+                 initial={{ opacity: 0, y: 30 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                 className="font-display text-5xl md:text-7xl lg:text-8xl font-black italic tracking-tighter text-white mb-6 leading-[0.9] uppercase"
+               >
+                 Fashion Lokal <br />
+                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#39FF14]/70">Tidak Butuh Tebakan</span>
+                 <br />Lagi.
+               </motion.h1>
+
+               <motion.p 
+                 initial={{ opacity: 0, y: 30 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                 className="text-lg md:text-xl text-white/50 max-w-2xl mb-12 font-light font-sans"
+               >
+                 AI-powered fashion intelligence untuk memahami trend Gen-Z Indonesia, perilaku pasar distro lokal, dan mengukur potensi hype desain streetwear sebelum rilis.
+               </motion.p>
+               
+               <motion.div 
+                 initial={{ opacity: 0, y: 30 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                 className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center"
+               >
+                 <button onClick={scrollToAnalyzer} className="w-full sm:w-auto px-8 py-4 bg-[#39FF14] text-black font-black italic uppercase tracking-widest text-sm rounded-sm hover:bg-white transition-all shadow-[0_0_30px_rgba(57,255,20,0.3)]">
+                   Analisis Desain
+                 </button>
+                 <button onClick={() => { document.getElementById('trends')?.scrollIntoView({ behavior: 'smooth' }); }} className="w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white font-black italic uppercase tracking-widest text-sm rounded-sm hover:bg-white/10 transition-all backdrop-blur-md">
+                   Lihat Trend Indonesia
+                 </button>
+               </motion.div>
+             </div>
+          </section>
+        )}
+
+        {/* ECOSYSTEM: Daily Insight */}
+        <div className="mb-12 border border-[#39FF14]/30 bg-[#39FF14]/5 rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6 relative overflow-hidden backdrop-blur-sm">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#39FF14]/10 blur-[50px] rounded-full pointer-events-none" />
+          <div className="bg-[#39FF14]/20 p-3 rounded-full shrink-0 border border-[#39FF14]/30 relative z-10">
+            <Zap className="w-6 h-6 text-[#39FF14]" />
+          </div>
+          <div className="relative z-10 flex-1">
+            <h4 className="font-mono text-[10px] tracking-widest uppercase text-[#39FF14] mb-2 font-bold">Today's Fashion Insight</h4>
+            <p className="text-sm md:text-base text-white/90 leading-relaxed font-sans italic">
+              "Washed black oversized tees dengan grafis minimalis di area punggung (back-print) saat ini memiliki konversi 40% lebih tinggi dibanding grafis mencolok di dada pada pasar Gen-Z Indonesia (Q3 2026)."
+            </p>
+          </div>
+        </div>
+
+        {/* ECOSYSTEM: Live Trend Radar */}
+        <div id="trends" className="mb-20 pt-16 -mt-16">
+          <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
+            <Activity className="w-5 h-5 text-white/50" />
+            <h2 className="font-display font-black text-2xl uppercase tracking-tighter text-white">Live Trend Radar</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Trending Aesthetics */}
+            <div className="p-5 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col h-full hover:bg-white/[0.04] transition-colors cursor-crosshair relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-orange-500/10 blur-xl rounded-full group-hover:bg-orange-500/20 transition-colors" />
+              <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2 relative z-10"><Flame className="w-3 h-3 text-orange-500"/> Sinyal Estetika Indo</div>
+              <ul className="space-y-3 flex-1 relative z-10">
+                <li className="flex justify-between items-center"><span className="text-sm font-bold text-white">Outfit Skena</span><span className="text-[#39FF14] font-mono text-[10px]">+48%</span></li>
+                <li className="flex justify-between items-center"><span className="text-sm font-bold text-white">Jersey-core Vintage</span><span className="text-[#39FF14] font-mono text-[10px]">+32%</span></li>
+                <li className="flex justify-between items-center"><span className="text-sm font-bold text-white">Archive Streetwear</span><span className="text-[#39FF14] font-mono text-[10px]">+24%</span></li>
+                <li className="flex justify-between items-center"><span className="text-sm font-bold text-white/50">Old Money Fit</span><span className="text-red-400 font-mono text-[10px]">-15%</span></li>
+              </ul>
+            </div>
+            
+            {/* Regional Pulse */}
+            <div className="p-5 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col h-full hover:bg-white/[0.04] transition-colors cursor-crosshair relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-cyan-400/10 blur-xl rounded-full group-hover:bg-cyan-400/20 transition-colors" />
+              <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2 relative z-10"><Globe className="w-3 h-3 text-cyan-400"/> Regional Pulse</div>
+              <div className="flex flex-col gap-3 flex-1 relative z-10">
+                <div className="flex items-start justify-between border-b border-white/5 pb-2">
+                  <div className="flex items-center gap-2 mb-1"><MapPin className="w-3 h-3 text-[#39FF14]" /><span className="text-xs font-bold text-white">Jakarta Selatan</span></div>
+                  <span className="text-[9px] text-[#39FF14] uppercase font-mono">Archive +37%</span>
+                </div>
+                <div className="flex items-start justify-between border-b border-white/5 pb-2">
+                  <div className="flex items-center gap-2 mb-1"><MapPin className="w-3 h-3 text-[#39FF14]" /><span className="text-xs font-bold text-white">Bandung</span></div>
+                  <span className="text-[9px] text-[#39FF14] uppercase font-mono text-right max-w-[80px]">Anime Fit Booming</span>
+                </div>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2 mb-1"><MapPin className="w-3 h-3 text-[#39FF14]" /><span className="text-xs font-bold text-white">Surabaya</span></div>
+                  <span className="text-[9px] text-[#39FF14] uppercase font-mono">Oversized Naik</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Trending Keywords */}
+            <div className="p-5 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col h-full hover:bg-white/[0.04] transition-colors cursor-crosshair relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-pink-500/10 blur-xl rounded-full group-hover:bg-pink-500/20 transition-colors" />
+              <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2 relative z-10"><Tag className="w-3 h-3 text-pink-500"/> Shopee / TikTok Search</div>
+              <div className="flex flex-wrap gap-2 relative z-10">
+                <span className="px-2 py-1 border border-[#39FF14]/50 text-[#39FF14] bg-[#39FF14]/10 text-xs font-mono uppercase rounded-sm">kaos backprint</span>
+                <span className="px-2 py-1 bg-white/10 border border-white/10 text-xs font-mono uppercase rounded-sm hover:border-white/30 text-white/80 transition-colors">baju oversized</span>
+                <span className="px-2 py-1 bg-white/10 border border-white/10 text-xs font-mono uppercase rounded-sm hover:border-white/30 text-white/80 transition-colors">celana baggy</span>
+                <span className="px-2 py-1 bg-white/10 border border-white/10 text-xs font-mono uppercase rounded-sm hover:border-white/30 text-white/80 transition-colors">jersey vintage</span>
+                <span className="px-2 py-1 bg-white/10 border border-white/10 text-xs font-mono uppercase rounded-sm hover:border-white/30 text-white/80 transition-colors">washed tee</span>
+              </div>
+            </div>
+
+            {/* Hype Index */}
+            <div className="p-5 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col h-full hover:bg-white/[0.04] transition-colors cursor-crosshair relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 blur-xl rounded-full group-hover:bg-blue-500/20 transition-colors" />
+              <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2 relative z-10"><BarChart3 className="w-3 h-3 text-blue-400"/> TikTok Viral Hashtags</div>
+              <ul className="space-y-3 flex-1 relative z-10">
+                <li className="flex justify-between items-center"><span className="text-xs font-bold text-white">#streetwearindo</span><span className="text-xs">🔥🔥🔥🔥🔥</span></li>
+                <li className="flex justify-between items-center"><span className="text-xs font-bold text-white">#outfitskena</span><span className="text-xs">🔥🔥🔥🔥</span></li>
+                <li className="flex justify-between items-center"><span className="text-xs font-bold text-white">#kaosoversize</span><span className="text-xs">🔥🔥🔥🔥</span></li>
+                <li className="flex justify-between items-center"><span className="text-xs font-bold text-white/50">#distrolokal</span><span className="text-xs grayscale">🔥</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* ECOSYSTEM: Fashion Intelligence Feed */}
+        <div className="mb-24">
+          <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+            <div className="flex items-center gap-3">
+              <Newspaper className="w-5 h-5 text-white/50" />
+              <h2 className="font-display font-black text-2xl uppercase tracking-tighter text-white">Fashion Intelligence Feed</h2>
+            </div>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#39FF14] bg-[#39FF14]/10 px-2 py-1 rounded">Live Updates</span>
+          </div>
+
+          <div className="space-y-4">
+            <div className="p-6 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col md:flex-row md:items-center gap-6 hover:bg-white/[0.04] transition-colors cursor-crosshair">
+               <div className="w-12 h-12 bg-[#39FF14]/10 rounded-full flex items-center justify-center shrink-0 border border-[#39FF14]/20 hidden md:flex">
+                 <TrendingUp className="w-5 h-5 text-[#39FF14]" />
+               </div>
+               <div className="flex-1">
+                 <div className="flex flex-wrap items-center gap-3 mb-2">
+                   <h3 className="font-bold text-white text-base">Japanese racing jackets are rising 43% this week</h3>
+                   <span className="px-2 py-0.5 bg-white/10 text-[9px] font-mono text-white/60 rounded uppercase tracking-wider">Global Trend</span>
+                 </div>
+                 <p className="text-sm text-white/50 leading-relaxed max-w-3xl">
+                   Analysis across TikTok and Pinterest shows a massive spike in vintage racing aesthetics, driven by recent celebrity streetwear sightings and archive fashion accounts.
+                 </p>
+               </div>
+               <div className="text-left md:text-right shrink-0 mt-4 md:mt-0 border-t border-white/10 md:border-t-0 pt-4 md:pt-0">
+                 <div className="text-[10px] font-mono text-white/40 mb-1">MARKET IMPACT</div>
+                 <div className="text-sm font-black italic text-[#39FF14]">HIGH</div>
+               </div>
+            </div>
+
+            <div className="p-6 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col md:flex-row md:items-center gap-6 hover:bg-white/[0.04] transition-colors cursor-crosshair">
+               <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center shrink-0 border border-red-500/20 hidden md:flex">
+                 <TrendingDown className="w-5 h-5 text-red-400" />
+               </div>
+               <div className="flex-1">
+                 <div className="flex flex-wrap items-center gap-3 mb-2">
+                   <h3 className="font-bold text-white text-base">Chrome typography aesthetics declining among Gen Z</h3>
+                   <span className="px-2 py-0.5 bg-white/10 text-[9px] font-mono text-white/60 rounded uppercase tracking-wider">Local Insight</span>
+                 </div>
+                 <p className="text-sm text-white/50 leading-relaxed max-w-3xl">
+                   Y2K chrome logos have reached saturation. Data suggests a shift towards brutalist serif fonts and clean, minimal typography for high-end streetwear positioning.
+                 </p>
+               </div>
+               <div className="text-left md:text-right shrink-0 mt-4 md:mt-0 border-t border-white/10 md:border-t-0 pt-4 md:pt-0">
+                 <div className="text-[10px] font-mono text-white/40 mb-1">MARKET IMPACT</div>
+                 <div className="text-sm font-black italic text-red-400">MODERATE</div>
+               </div>
+            </div>
+
+            <div className="p-6 border border-white/5 bg-white/[0.02] rounded-xl flex flex-col md:flex-row md:items-center gap-6 hover:bg-white/[0.04] transition-colors cursor-crosshair">
+               <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 hidden md:flex">
+                 <Activity className="w-5 h-5 text-blue-400" />
+               </div>
+               <div className="flex-1">
+                 <div className="flex flex-wrap items-center gap-3 mb-2">
+                   <h3 className="font-bold text-white text-base">Dark utilitywear gaining traction in Indonesia</h3>
+                   <span className="px-2 py-0.5 bg-white/10 text-[9px] font-mono text-white/60 rounded uppercase tracking-wider">Regional Data</span>
+                 </div>
+                 <p className="text-sm text-white/50 leading-relaxed max-w-3xl">
+                   Local distro and TikTok shop data indicates a 22% increase in searches for multi-pocket cargos, tactical vests, and washed canvas materials suitable for tropical climates.
+                 </p>
+               </div>
+               <div className="text-left md:text-right shrink-0 mt-4 md:mt-0 border-t border-white/10 md:border-t-0 pt-4 md:pt-0">
+                 <div className="text-[10px] font-mono text-white/40 mb-1">MARKET IMPACT</div>
+                 <div className="text-sm font-black italic text-blue-400">RISING</div>
+               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* THE ANALYZER SECTION */}
+        <section ref={analyzerRef} className="pt-8 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
+             <Crosshair className="w-5 h-5 text-white/50" />
+             <h2 className="font-display font-black text-2xl uppercase tracking-tighter text-white">Launch Predictor Engine</h2>
+          </div>
+
         <AnimatePresence mode="wait">
           {(!result && !isScanning) && (
             <motion.div 
@@ -245,18 +477,18 @@ export default function HypeMeter() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center text-center mt-20"
+              className="flex flex-col items-center text-center mt-12"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium mb-8">
                 <Sparkles className="w-4 h-4 text-[#39FF14]" />
                 <span className="text-white/80">Kecerdasan Buatan Untuk Fashion Lokal</span>
               </div>
               
-              <h2 className="font-display text-5xl md:text-7xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 mb-6 max-w-4xl leading-[1.1] uppercase">
-                Prediksi Potensi <br />Viral Desainmu.
+              <h2 className="font-display text-3xl md:text-4xl font-black italic tracking-tighter text-white mb-4 max-w-4xl leading-[1.1] uppercase">
+                Uji Desain Kamu Sekarang.
               </h2>
               
-              <p className="text-lg md:text-xl text-white/50 max-w-2xl mb-12 font-light">
+              <p className="text-sm md:text-base text-white/50 max-w-2xl mb-12 font-light">
                 Unggah desain streetwear, mockup, atau artwork. AI kami akan membedah estetika, menguji daya tarik Gen Z Indo, dan memberikan strategi kampanye. (Belakang / Back Print sangat disarankan)
               </p>
 
@@ -408,19 +640,40 @@ export default function HypeMeter() {
                         </div>
                       </motion.div>
 
-                      {/* Style Identity */}
+                      {/* Style Identity & Fashion DNA */}
                       <motion.div variants={{hidden: {opacity:0, y:20}, show: {opacity:1, y:0}}} className="p-6 rounded-xl border border-white/10 bg-white/[0.02]">
                         <div className="flex items-center gap-2 text-white/50 mb-6">
                           <Tag className="w-4 h-4" />
-                          <span className="font-mono text-[10px] tracking-[0.1em] font-bold uppercase">Identitas Estetika</span>
+                          <span className="font-mono text-[10px] tracking-[0.1em] font-bold uppercase">Identitas Estetika & DNA</span>
                         </div>
-                        <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="flex flex-wrap gap-2 mb-6">
                           {result.styleTags.map(tag => (
                             <div key={tag} className="px-3 py-1.5 rounded-sm bg-white/10 border border-white/5 text-[10px] font-mono font-bold text-white uppercase tracking-wider">
                               {tag}
                             </div>
                           ))}
                         </div>
+                        
+                        {/* Fashion DNA Bars */}
+                        <div className="space-y-4 mb-6">
+                          {result.fashionDNA?.map((dna, idx) => (
+                            <div key={idx}>
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="font-mono text-[10px] uppercase text-white/80">{dna.style}</span>
+                                <span className="font-mono text-[10px] font-bold text-[#39FF14]">{dna.percentage}%</span>
+                              </div>
+                              <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                <motion.div 
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${dna.percentage}%` }}
+                                  transition={{ duration: 1, ease: "easeOut", delay: 0.5 + (idx * 0.2) }}
+                                  className="h-full bg-[#39FF14] rounded-full"
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
                         <p className="text-xs text-white/60 leading-relaxed italic border-t border-white/5 pt-4">
                           "{result.aestheticAnalysis}"
                         </p>
@@ -558,6 +811,89 @@ export default function HypeMeter() {
             </motion.div>
           )}
         </AnimatePresence>
+        </section>
+
+        {/* ECOSYSTEM: Community Showcase (Mock) */}
+        <section className="mb-24 mt-20">
+          <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+             <div className="flex items-center gap-3">
+               <Sparkles className="w-5 h-5 text-white/50" />
+               <h2 className="font-display font-black text-2xl uppercase tracking-tighter text-white">Top Hype Drops Today</h2>
+             </div>
+             <button className="text-[10px] font-mono uppercase tracking-widest text-[#39FF14] hover:underline">View All</button>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+             {/* Mock Item 1 */}
+             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors">
+               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
+                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">CHAOS</span>
+                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion1/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
+                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">94% HYPE</div>
+               </div>
+               <div className="p-4 border-t border-white/5">
+                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Archive Streetwear</div>
+                 <h4 className="font-bold text-sm text-white mb-2 truncate">Chaos Theory Washed Tee</h4>
+                 <div className="flex items-center gap-2">
+                   <div className="w-4 h-4 rounded-full bg-white/10" />
+                   <span className="text-[10px] text-white/60">@skenafit.id</span>
+                 </div>
+               </div>
+             </div>
+
+             {/* Mock Item 2 */}
+             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors">
+               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
+                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">NEO-TX</span>
+                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion2/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
+                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">91% HYPE</div>
+               </div>
+               <div className="p-4 border-t border-white/5">
+                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Cybercore Utility</div>
+                 <h4 className="font-bold text-sm text-white mb-2 truncate">Neon Stitch Cargo Zip</h4>
+                 <div className="flex items-center gap-2">
+                   <div className="w-4 h-4 rounded-full bg-white/10" />
+                   <span className="text-[10px] text-white/60">@archivebdg</span>
+                 </div>
+               </div>
+             </div>
+
+             {/* Mock Item 3 */}
+             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors">
+               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
+                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">GLITCH</span>
+                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion3/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
+                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">88% HYPE</div>
+               </div>
+               <div className="p-4 border-t border-white/5">
+                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Y2K Cyber</div>
+                 <h4 className="font-bold text-sm text-white mb-2 truncate">Glitch Star Zip-Up</h4>
+                 <div className="flex items-center gap-2">
+                   <div className="w-4 h-4 rounded-full bg-white/10" />
+                   <span className="text-[10px] text-white/60">@y2k_indo</span>
+                 </div>
+               </div>
+             </div>
+
+             {/* Mock Item 4 */}
+             <div className="group border border-white/10 bg-white/[0.02] rounded-xl overflow-hidden hover:border-[#39FF14]/50 transition-colors hidden lg:block">
+               <div className="h-48 bg-[#141416] w-full relative overflow-hidden flex flex-col justify-center items-center">
+                  <span className="text-white font-display font-black text-3xl italic tracking-tighter uppercase opacity-50">RACING</span>
+                  <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/fashion4/400/400')] opacity-40 mix-blend-screen scale-110 group-hover:scale-100 transition-transform duration-700" />
+                  <div className="absolute top-2 right-2 bg-black/80 backdrop-blur border border-[#39FF14]/30 px-2 py-1 rounded text-[10px] font-mono text-[#39FF14] font-bold">85% HYPE</div>
+               </div>
+               <div className="p-4 border-t border-white/5">
+                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">Racing-core</div>
+                 <h4 className="font-bold text-sm text-white mb-2 truncate">Vintage Grand Prix Jacket</h4>
+                 <div className="flex items-center gap-2">
+                   <div className="w-4 h-4 rounded-full bg-white/10" />
+                   <span className="text-[10px] text-white/60">@racingsupply.jkt</span>
+                 </div>
+               </div>
+             </div>
+          </div>
+        </section>
+
       </main>
     </div>
   );

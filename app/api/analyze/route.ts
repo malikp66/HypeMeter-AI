@@ -16,6 +16,17 @@ const responseSchema: Schema = {
       items: { type: Type.STRING },
       description: "Contoh: Skena, Y2K, Streetwear Lokal"
     },
+    fashionDNA: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          style: { type: Type.STRING },
+          percentage: { type: Type.INTEGER }
+        }
+      },
+      description: "Persentase DNA gaya kultural (total 100%). Contoh: [{style: 'Tokyo Streetwear', percentage: 40}, {style: 'Cyber Y2K', percentage: 60}]"
+    },
     aestheticAnalysis: { type: Type.STRING, description: "2-sentence deskripsi gaya bahasa visual dalam Bahasa Indonesia." },
     audiencePersona: {
       type: Type.OBJECT,
@@ -45,7 +56,7 @@ const responseSchema: Schema = {
       }
     }
   },
-  required: ["viralPotentialScore", "genZAppeal", "tiktokFit", "streetwearRelevance", "designUniqueness", "styleTags", "aestheticAnalysis", "audiencePersona", "marketingCampaign", "marketRisk"]
+  required: ["viralPotentialScore", "genZAppeal", "tiktokFit", "streetwearRelevance", "designUniqueness", "styleTags", "fashionDNA", "aestheticAnalysis", "audiencePersona", "marketingCampaign", "marketRisk"]
 };
 
 export async function POST(req: NextRequest) {
@@ -58,7 +69,7 @@ export async function POST(req: NextRequest) {
 
     const promptText = `Sebagai AI Fashion Strategist untuk brand lokal Indonesia, berikan evaluasi jujur dan kritikal terhadap desain aparel ini. 
 Tentukan: 
-1. Klasifikasi gaya estetika (misal: Skena, Cybercore, Y2K).
+1. Klasifikasi gaya estetika utama dan Fashion DNA (persentase sub-kultur seperti Archive, Y2K, Skena).
 2. Potensi viral dan audiens target (Gen Z, harga, psikologi).
 3. Evaluasi kekuatan & kelemahan (market risk untuk Tiktok/Shopee/Distro).
 4. Dasar Penilaian (validation basis) mengapa skor itu diberikan dengan kondisi hype tren terkini di Indonesia. Ekstrak hasilnya menggunakan spesifikasi JSON yang diberikan dalam Bahasa Indonesia.
