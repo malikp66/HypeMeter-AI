@@ -1,0 +1,6 @@
+{
+  "name": "HypeMeter AI",
+  "description": "AI-powered fashion trend and virality intelligence platform. Predict what fashion will go viral.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
